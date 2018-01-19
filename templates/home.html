@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="grid-75">
+    {% if user.is_authenticated %}
+        <h1>Welcome {{ user.username }}!</h1>
+        {% else %}
+        <h1>Welcome!</h1>
+        {% endif %}
+        <p>Let's get started and set up a profile.</p>
+        <p>Sign up to set up a profile.</p>
+        <p>If you already have a profile, sign in to view and edit your profile</p>
+    </div>
+{% endblock %}

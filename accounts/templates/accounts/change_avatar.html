@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+
+{% block title %}{{ block.super }} | {{ user.username }}{% endblock %}
+
+{% block body %}
+    <div class="grid-75">
+        {% if user.profile.avatar %}
+            <div>
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" width="300px">
+                <br/>
+                <a href="{% url 'accounts:rotate_image' %}" class="button">Rotate</a>
+                <a href="{% url 'accounts:crop_image' %}" class="button">Crop</a>
+                <a href="{% url 'accounts:flip_image' %}" class="button">Flip</a>
+            </div>
+            <div>
+                {% if size %}
+                    <h3>Image size is {{ size }}</h3>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Apply</button>
+                </form>
+            </div>
+        {% else %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_ul }}
+                <button type="submit">Save avatar</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

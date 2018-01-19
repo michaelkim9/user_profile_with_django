@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+
+{% block title %}{{ block.super }} | Edit Profile {{ user.username }}{% endblock %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static "accounts/css/font_roboto/roboto.css" %}">
+<link rel="stylesheet" href="{% static "accounts/css/dhtmlxcalendar.css" %}">
+{% endblock %}
+
+
+{% block js %}
+ <!--Tinymce Text-Editor (Must be in Head Tag) -->
+  <script src="{% static 'accounts/js/tinymce/tinymce.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'accounts/js/tinymce/custom.js' %}" ></script>
+
+    <script type="text/javascript"
+        src="{% static "accounts/js/dhtmlxcalendar.js" %}"></script>
+
+ <!--Date of Birth Calendar -->
+<script>
+var myCalendar;
+window.onload = function() {
+    myCalendar = new dhtmlXCalendarObject(["birth_date"]);
+};
+</script>
+{% endblock %}
+
+
+{% block body %}
+
+<form action='' method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    <input type="submit" class="button-primary" value="Save Changes">
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+
+{% block title %}{{ block.super }} | {{ user.username }}{% endblock %}
+
+{% block body %}
+    <div class="grid-75">
+    {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" width="75">
+    {% else %}
+        <img src="{% static 'accounts/none/no_img.png' %}" width="75">
+    {% endif %}
+    <br>
+        <div>Username: {{user.username}}</div>
+        <div>Email: {{user.email}}</div>
+        <div>First Name: {{user.first_name}}</div>
+        <div>Last Name: {{user.last_name}}</div>
+        <div>Date of Birth: {{user.profile.birth_date}}</div>
+        <div>Hobby: {{user.profile.hobby}}</div>
+        <div>City: {{user.profile.city}}</div>
+        <div>Country: {{user.profile.country.name}}</div>
+        <br>
+        <div>Bio:<br>{{user.profile.bio|safe}}</div>
+    </div>
+    <br>
+
+    <a href="{% url 'accounts:edit_profile' %}">Edit Profile</a>
+    <br/>
+    <a href="{% url 'accounts:edit_avatar' %}">Edit Profile Image</a>
+    <br/>
+    <a href="{% url 'accounts:edit_password' %}">Change Password</a>
+
+
+{% endblock %}
