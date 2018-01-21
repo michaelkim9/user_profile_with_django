@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import (UserCreationForm,
+                                       UserChangeForm,
+                                       PasswordChangeForm)
 from django.core import validators
 from django.utils.safestring import mark_safe
 from django_countries.widgets import CountrySelectWidget
@@ -68,10 +70,11 @@ class EditUserForm(forms.ModelForm):
 
 
 class EditProfileForm(forms.ModelForm):
-    birth_date = forms.DateField(input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
-                                 required=False,
-                                 widget=forms.DateInput(attrs={'id': 'birth_date'})
-                                 )
+    birth_date = forms.DateField(
+                            input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
+                            required=False,
+                            widget=forms.DateInput(attrs={'id': 'birth_date'})
+                            )
 
     bio = forms.CharField(widget=TinyMCE(attrs={'rows': 80}),
                           required=False,
@@ -137,22 +140,25 @@ class EditPasswordForm(forms.Form):
 
         # Check new password not equal to current password
         if new_password1 == old_password:
-            raise forms.ValidationError('New Password cannot be same as Old Password')
+            raise forms.ValidationError("New Password cannot"
+                                        "be same as Old Password")
 
         # Check for minimum length
         if len(new_password1) < self.min_length:
-            raise forms.ValidationError("Password must be at least {} characters long".format(self.min_length))
+            raise forms.ValidationError("Password must be at least"
+                                        "{} characters".format(self.min_length)
+                                        )
 
         # check for upper and lower case letters
-        if not re.search(r'([a-z])+', new_password1) or \
-            not re.search(r'[A-Z]+', new_password1):
+        if (not re.search(r'([a-z])+', new_password1) or
+                not re.search(r'[A-Z]+', new_password1)):
             raise forms.ValidationError("New password must contain "
                                         "Uppercase and Lowercase letters.")
 
         # check new password contains special characters
         if not re.search(r'\d+', new_password1):
-            raise forms.ValidationError("The new password must include at least "
-                                        "one number.")
+            raise forms.ValidationError("The new password must include at "
+                                        "least one number.")
 
         # check for special characters
         if not re.search(r'([@#$])+', new_password1):
@@ -168,11 +174,11 @@ class EditPasswordForm(forms.Form):
         # first_name and last_name are not required inputs
         if user_first or user_last:
             if (user_first in new_password1.lower() or
-                        user_last in new_password1.lower() or
-                        user_username in new_password1.lower()):
+                    user_last in new_password1.lower() or
+                    user_username in new_password1.lower()):
                 raise forms.ValidationError(
                     "New password cannot contain "
-                "parts of your username or full name."
+                    "parts of your username or full name."
                                             )
         else:
             pass
@@ -214,7 +220,14 @@ class EditCropForm(forms.Form):
             max_left = width - right
             max_top = height - bottom
 
-            if left >= max_left or top >= max_top \
-                    or left >= width or top >= height or right > width or bottom > height \
-                    or left < 0 or top < 0 or right <= 0 or bottom <= 0:
+            if (left >= max_left
+                    or top >= max_top
+                    or left >= width
+                    or top >= height
+                    or right > width
+                    or bottom > height
+                    or left < 0
+                    or top < 0
+                    or right <= 0
+                    or bottom <= 0):
                 raise forms.ValidationError("Cropping box is not valid.")

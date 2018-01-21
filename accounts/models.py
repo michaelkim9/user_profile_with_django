@@ -18,11 +18,13 @@ class Profile(models.Model):
     country = CountryField(blank=True)
     hobby = models.CharField(max_length=100, blank=True)
 
+
 # Signal methods to create and save profiles once User is created
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import (authenticate, login, logout,
+                                 update_session_auth_hash)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.urls import reverse
@@ -76,7 +77,8 @@ def edit_profile(request):
 
     if request.method == 'POST':
         user_form = forms.EditUserForm(request.POST, instance=request.user)
-        profile_form = forms.EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_form = forms.EditProfileForm(request.POST, request.FILES,
+                                             instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             print(settings.MEDIA_ROOT)
             user_form.save()
@@ -161,4 +163,5 @@ def crop_image(request):
                 image = image.crop(box)
                 image.save(request.user.profile.avatar.path)
                 return HttpResponseRedirect(reverse('accounts:edit_avatar'))
-        return render(request, 'accounts/change_avatar.html', {'form': form, 'size': size})
+        return render(request, 'accounts/change_avatar.html',
+                      {'form': form, 'size': size})
